@@ -22,7 +22,7 @@ class BTree<T> where T: IComparable
     {
         if (Root == null)
         {
-            Root = new BTreeNode(value, null);
+            Root = new BTreeNode(value);
             return;
         }
 
@@ -35,8 +35,8 @@ class BTree<T> where T: IComparable
 
         switch (compared)
         {
-            case <= 0: if (currentNode.Left == null) currentNode.Left = new BTreeNode(value, currentNode); else Add(value, currentNode.Left); break;
-            case > 0: if (currentNode.Right == null) currentNode.Right = new BTreeNode(value, currentNode); else Add(value, currentNode.Right); break;
+            case <= 0: if (currentNode.Left == null) currentNode.Left = new BTreeNode(value); else Add(value, currentNode.Left); break;
+            case > 0: if (currentNode.Right == null) currentNode.Right = new BTreeNode(value); else Add(value, currentNode.Right); break;
         }
     }
 
@@ -94,18 +94,15 @@ class BTree<T> where T: IComparable
     private class BTreeNode
     {
         private BTreeNode? _Left, _Right;
-        private readonly BTreeNode? _Parent;
         private T _Value;
 
-        public BTreeNode(T value, BTreeNode? parent)
+        public BTreeNode(T value)
         {
             _Value = value;
-            _Parent = parent;
         }
 
         public BTreeNode? Left { get => _Left; set { _Left = value; } }
         public BTreeNode? Right { get => _Right; set { _Right = value; } }
-        public BTreeNode? Parent => _Parent;
         public T Value { get => _Value; set { _Value = value; } }
         public bool IsList => Left == null && Right == null;
     }
