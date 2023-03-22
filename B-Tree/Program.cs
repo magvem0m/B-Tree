@@ -14,6 +14,13 @@ bTree.Add("-1");
 bTree.BreadthFirst();
 bTree.DepthFirst();
 
+ListNode<int> listNode = new(5);
+
+Console.WriteLine("Val1: " + listNode.Value);
+listNode.SetNodeValue(4);
+Console.WriteLine("Val2: " + listNode.Value);
+ListNode<int> listNode2 = new(6);
+listNode.Concat(listNode2);
 class BTree<T> where T: IComparable
 {
     private BTreeNode? Root;
@@ -105,5 +112,38 @@ class BTree<T> where T: IComparable
         public BTreeNode? Right { get => _Right; set { _Right = value; } }
         public T Value { get => _Value; set { _Value = value; } }
         public bool IsList => Left == null && Right == null;
+    }
+}
+
+class ListNode<T>
+{
+    public readonly T Value;
+    public readonly ListNode<T>? Next;
+
+    public ListNode(T val, ListNode<T>? next = null)
+    {
+      this.Value = val;
+      this.Next = next;
+    }
+
+    public void SetNodeValue(T value)
+    {
+        typeof(ListNode<T>)
+        .GetField("Value")
+        .SetValue(this, value);
+    }
+
+    public void Concat(ListNode<T> list)
+    {
+        ListNode<T>? current = this;
+
+        while(current.Next!=null)
+            current = current.Next;
+
+        typeof(ListNode<T>)
+        .GetField("Next")
+        .SetValue(current, list);
+
+        Console.WriteLine(current.Next.Value);
     }
 }
